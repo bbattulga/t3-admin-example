@@ -1,3 +1,4 @@
+import { AuthSession } from '@/server/auth';
 /**
  * YOU PROBABLY DON'T NEED TO EDIT THIS FILE, UNLESS:
  * 1. You want to modify request context (see Part 1).
@@ -119,12 +120,15 @@ const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
   });
 });
 
-const withEnforcedUserRole = (role: string) => {
+const withEnforcedUserRole = (role: string, validate?: (session: Session) => boolean) => {
   return t.middleware(({ ctx, next }) => {
     if (!ctx.session || !ctx.session.user) {
       throw new TRPCError({ code: "UNAUTHORIZED" });
     }
     if (ctx.session.user.role !== role) {
+      throw new TRPCError({ code: "UNAUTHORIZED" });
+    }
+    if (validate && !validate(ctx.session)) {
       throw new TRPCError({ code: "UNAUTHORIZED" });
     }
     return next({
@@ -147,4 +151,6 @@ const withEnforcedUserRole = (role: string) => {
 export const protectedProcedure = t.procedure.use(enforceUserIsAuthed);
 
 export const superAdminProcedure = t.procedure.use(withEnforcedUserRole('super-admin'))
-export const adminProcedure = t.procedure.use(withEnforcedUserRole('admin'))
+export const adminProcedure = t.procedure.use(withEnforcedUserRole('admin', (session) => {
+  return session.user.orgId ? true : false
+}))

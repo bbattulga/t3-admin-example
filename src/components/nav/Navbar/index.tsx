@@ -188,7 +188,8 @@ export default function Navbar() {
                         <AuthorizedView role={[ROLE_ADMIN]}>
                             <Link href="/admin/dashboard" className={classes.link}>Dashboard</Link>
                             <Link href="/admin/users" className={classes.link}>Users</Link>
-                            <Link href="/admin/roles" className={classes.link}>Roles</Link>
+                            <Link href="/admin/lottery" className={classes.link}>Lottery</Link>
+                            <Link href="/admin/corporate-gateway" className={classes.link}>Corporate Gateway</Link>
                         </AuthorizedView>
                     </Group>
 
@@ -243,8 +244,9 @@ export default function Navbar() {
                                 <Group>
                                     <AccountButton />
                                     <Button onClick={async () => {
-                                        await signOut()
-                                        router.push('/')
+                                        await signOut({
+                                            callbackUrl: '/'
+                                        })
                                     }} variant="default">Logout</Button>
                                 </Group>
                             )}

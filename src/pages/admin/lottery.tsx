@@ -1,5 +1,5 @@
 import AdminGuard from '@/components/Auth/roles/AdminGuard'
-import AdminLotteryUsersFeature from '@/features/admin/AdminLotteryUsersFeature'
+import AdminLotteryFeature from '@/features/admin/AdminLotteryFeature'
 import { Container, Title } from '@mantine/core'
 import React from 'react'
 
@@ -10,8 +10,8 @@ function AdminUsersPage({ }: Props) {
         <>
             <AdminGuard>
                 <Container>
-                    <Title>Lottery Users</Title>
-                    <AdminLotteryUsersFeature />
+                    <Title>Lottery</Title>
+                    <AdminLotteryFeature />
                 </Container>
             </AdminGuard>
         </>

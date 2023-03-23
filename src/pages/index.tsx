@@ -143,8 +143,9 @@ export function HomePage() {
                       <p>{sessionData.data.user.role}</p>
                     </Box>
                     <Button onClick={async () => {
-                      await signOut()
-                      router.push('/')
+                      await signOut({
+                        callbackUrl: '/'
+                      })
                     }} mt={2} variant="default" radius="xl" size="md" className={classes.control}>
                       Logout
                     </Button>

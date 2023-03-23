@@ -1,5 +1,6 @@
 import { createTRPCRouter } from "@/server/api/trpc";
 import { superAdminRouter } from "./routers/super-admin";
+import { adminRouter } from "./routers/admin";
 
 /**
  * This is the primary router for your server.
@@ -7,7 +8,8 @@ import { superAdminRouter } from "./routers/super-admin";
  * All routers added in /api/routers should be manually added here.
  */
 export const appRouter = createTRPCRouter({
-  superAdmin: superAdminRouter
+  superAdmin: superAdminRouter,
+  admin: adminRouter,
 });
 
 // export type definition of API

@@ -66,7 +66,6 @@ model lt_role {
   updated_at         DateTime             @default(now())
   admins             lt_admin[]
   lt_role_permission lt_role_permission[]
-  users              lt_user[]
 
   @@unique([slug, name], map: "lt_role_un")
 }
@@ -95,16 +94,13 @@ model lt_role_permission {
 
 model lt_user {
   user_id           BigInt      @id @default(autoincrement())
-  email             String      @unique
+  email             String      @unique @db.VarChar(128)
   password          String
   is_password_reset Boolean     @default(false)
   created_at        DateTime    @default(now())
   updated_at        DateTime    @default(now())
-  role_id           Int
+  mobile_number     String?     @db.VarChar(64)
   lotto_tickets     lt_ticket[]
-  role              lt_role     @relation(fields: [role_id], references: [role_id])
-
-  @@index([role_id])
 }
 
 model lt_admin {
@@ -188,4 +184,19 @@ model lt_bank {
   name      String
   code      String
   purchases lt_purchase[]
+}
+
+model lt_user_bank_transaction {
+  user_bank_transaction_id BigInt    @id(map: "lt_user_transaction_pk") @default(autoincrement())
+  first_name               String?   @db.VarChar
+  last_name                String?   @db.VarChar
+  description              String?   @db.VarChar
+  amount                   Float?
+  created_at               DateTime? @db.Timestamp(6)
+  from_bank_name           String?   @db.VarChar
+  from_bank_account        String?   @db.VarChar
+  to_bank_name             String?   @db.VarChar
+  to_bank_account          String?   @db.VarChar
+  bank_transaction_id      String?   @db.VarChar
+  bank_transaction_at      DateTime? @db.Timestamp(6)
 }

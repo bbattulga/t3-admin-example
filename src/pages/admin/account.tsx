@@ -1,5 +1,5 @@
 import AuthGuard from '@/components/Auth/AuthGuard';
-import { ROLE_SUPER_ADMIN } from '@/shared';
+import AdminGuard from '@/components/Auth/roles/AdminGuard';
 import { createStyles, Card, Avatar, Text, Group, Button, rem, Loader, Title, Box, Center } from '@mantine/core';
 import { signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
@@ -14,15 +14,11 @@ const useStyles = createStyles((theme) => ({
     },
 }));
 
-interface SuperAdminAccountPageProps {
-    image: string;
-    avatar: string;
-    name: string;
-    job: string;
-    stats: { label: string; value: string }[];
+interface AccountPageProps {
+
 }
 
-export default function SuperAdminAccountPage({ image, avatar, name, job, stats }: SuperAdminAccountPageProps) {
+export default function AdminAccountPage({ ...props }: AccountPageProps) {
     const { classes, theme } = useStyles();
     const router = useRouter()
     const session = useSession()
@@ -36,7 +32,7 @@ export default function SuperAdminAccountPage({ image, avatar, name, job, stats 
     }
 
     return (
-        <AuthGuard role={[ROLE_SUPER_ADMIN]}>
+        <AdminGuard>
             <Center>
                 <Card withBorder sx={(theme) => ({
                     [theme.fn.largerThan('md')]: {
@@ -44,14 +40,7 @@ export default function SuperAdminAccountPage({ image, avatar, name, job, stats 
                         minWidth: 400
                     }
                 })} padding="xl" radius="md" className={classes.card}>
-                    <Card.Section sx={{ backgroundImage: `url(${image})`, height: 140 }} />
-                    <Avatar src={session.data.user.image} size={80} radius={80} mx="auto" mt={-30} className={classes.avatar} />
-                    <Text ta="center" fz="lg" fw={500} mt="sm">
-                        {name}
-                    </Text>
-                    <Text ta="center" fz="sm" c="dimmed">
-                        {job}
-                    </Text>
+                    <Avatar src={session.data.user.image} size={80} radius={80} mx="auto" className={classes.avatar} />
                     <Group mt="md" position="center" spacing={30}>
                         <div>
                             <Text ta="center" fz="lg" fw={500}>
@@ -71,6 +60,6 @@ export default function SuperAdminAccountPage({ image, avatar, name, job, stats 
                     </Button>
                 </Card>
             </Center>
-        </AuthGuard>
+        </AdminGuard>
     );
 }

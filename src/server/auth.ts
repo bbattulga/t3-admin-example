@@ -27,6 +27,7 @@ declare module "next-auth" {
       id: string;
       // ...other properties
       role: UserRole;
+      orgId?: number;
       adminId: number;
       roleName: string;
     } & DefaultSession["user"];
@@ -93,6 +94,7 @@ export const authOptions: NextAuthOptions = {
           },
           select: {
             admin_id: true,
+            org_id: true,
             role: {
               select: {
                 slug: true,
@@ -104,6 +106,7 @@ export const authOptions: NextAuthOptions = {
         if (dbAdmin && dbAdmin.role) {
           session.user.roleName = dbAdmin.role.name;
           session.user.adminId = dbAdmin.admin_id;
+          session.user.orgId = dbAdmin.org_id || undefined;
           session.user.role = dbAdmin.role.slug; // <-- put other properties on the session here
         }
       }

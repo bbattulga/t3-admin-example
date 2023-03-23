@@ -23,8 +23,9 @@ function AccountButton({ }: Props) {
                             router.push(`/${session.data?.user.role}/account`)
                         }}>{session.data?.user.email}</Button>
                         <Button onClick={async () => {
-                            await signOut()
-                            router.push('/')
+                            await signOut({
+                                callbackUrl: '/'
+                            })
                         }} variant="default">Logout</Button>
                     </Group>
                 </>

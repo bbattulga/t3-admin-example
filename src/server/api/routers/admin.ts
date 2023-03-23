@@ -6,6 +6,18 @@ import {
 } from "@/server/api/trpc";
 
 export const adminRouter = createTRPCRouter({
+    dashboard: adminProcedure.query(async ({
+        ctx,
+    }) => {
+        const adminCount = await ctx.prisma.lt_admin.count({
+            where: {
+                org_id: ctx.session.user.orgId
+            },
+        })
+        return {
+            adminCount
+        }
+    }),
     users: adminProcedure.input(z.object({
         offset: z.number(),
         limit: z.number(),

@@ -63,8 +63,9 @@ export default function AccountPage({ image, avatar, name, job, stats }: Account
                         </div>
                     </Group>
                     <Button onClick={async () => {
-                        await signOut()
-                        router.push('/')
+                        await signOut({
+                            callbackUrl: '/'
+                        })
                     }} variant={"filled"} fullWidth size="md" mt="xl">
                         Logout
                     </Button>
